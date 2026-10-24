@@ -1,0 +1,51 @@
+:root { --g:#33ff66; --bg:#050805; --dim:#1f9d45; }
+* { box-sizing:border-box; }
+html, body {
+  margin:0; height:100%; background:var(--bg); color:var(--g); overflow:hidden;
+  font:clamp(14px, .5vw + 9px, 22px)/1.5 "Cascadia Mono", Consolas, "Courier New", monospace;
+}
+
+/* スキャンライン */
+body::before {
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:60;
+  background:repeating-linear-gradient(0deg, rgba(0,0,0,.18) 0 1px, transparent 1px 3px);
+}
+
+/* ターミナル */
+#term { height:100%; overflow-y:auto; padding:18px; text-shadow:0 0 6px rgba(51,255,102,.55); }
+#out div { white-space:pre-wrap; word-break:break-all; min-height:1.5em; }
+.dim { color:var(--dim); } .err { color:#ff5470; } .ok { color:#7dffb0; } .hl { color:#ffe66d; }
+#line { display:flex; gap:.6em; align-items:center; }
+#prompt { white-space:nowrap; }
+#cmd {
+  flex:1; background:transparent; border:0; outline:0; color:inherit;
+  font:inherit; text-shadow:inherit; caret-color:var(--g);
+}
+
+/* バグ演出 */
+#noise { position:fixed; inset:0; z-index:50; pointer-events:none; display:none; mix-blend-mode:screen; }
+body.glitch #term {
+  animation:shake .11s steps(2) infinite;
+  text-shadow:3px 0 rgba(255,0,80,.8), -3px 0 rgba(0,255,255,.8);
+}
+@keyframes shake {
+  0%   { transform:translate(0,0) skewX(0); filter:hue-rotate(0deg); }
+  25%  { transform:translate(-6px,2px) skewX(3deg); filter:hue-rotate(90deg) contrast(1.4); }
+  50%  { transform:translate(5px,-3px) skewX(-4deg); filter:hue-rotate(200deg) invert(.15); }
+  75%  { transform:translate(-3px,4px) skewX(2deg); filter:hue-rotate(310deg) contrast(1.8); }
+  100% { transform:translate(0,0) skewX(0); filter:none; }
+}
+
+/* ゲーム画面 */
+#game {
+  position:fixed; inset:0; z-index:40; display:none; flex-direction:column;
+  align-items:center; justify-content:center; gap:10px; background:rgba(2,6,3,.96);
+}
+#game canvas { border:2px solid var(--dim); box-shadow:0 0 24px rgba(51,255,102,.35); background:#000; }
+#hint { color:var(--dim); font-size:clamp(12px, .4vw + 8px, 18px); }
+#back {
+  position:fixed; top:14px; left:14px; z-index:45; padding:6px 14px; cursor:pointer;
+  font:inherit; font-size:14px; color:var(--g); background:rgba(5,8,5,.85);
+  border:1px solid var(--dim); border-radius:4px; text-shadow:inherit;
+}
+#back:hover { background:var(--g); color:#000; text-shadow:none; }
